@@ -1,0 +1,91 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="bodyreserve">
+    <div class="container">
+        <h1>Book Your Stay</h1>
+        
+        <div class="date-group">
+            <label for="checkin">Check-in Date</label>
+            <input type="date" id="checkin" required>
+        </div>
+
+        <div class="date-group">
+            <label for="checkout">Check-out Date</label>
+            <input type="date" id="checkout" required>
+        </div>
+
+        <div class="nights-display">
+            <div class="number" id="nights">0</div>
+            <div class="label">nights</div>
+        </div>
+
+        <div class="price">
+            Total: <span class="amount" id="price">0Rs</span>
+        </div>
+
+        <button class="pay-button" id="payButton" disabled>
+            Pay Now
+        </button>
+
+        <div class="error" id="error"></div>
+    </div>
+
+    <script>
+        const checkinInput = document.getElementById('checkin');
+        const checkoutInput = document.getElementById('checkout');
+        const nightsDisplay = document.getElementById('nights');
+        const priceDisplay = document.getElementById('price');
+        const payButton = document.getElementById('payButton');
+        const errorDisplay = document.getElementById('error');
+
+        const PRICE_PER_NIGHT = 100;
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        checkinInput.min = today;
+        checkoutInput.min = today;
+
+        function calculateNights() {
+            errorDisplay.textContent = '';
+            
+            const checkin = new Date(checkinInput.value);
+            const checkout = new Date(checkoutInput.value);
+
+            if (!checkinInput.value || !checkoutInput.value) {
+                nightsDisplay.textContent = '0';
+                priceDisplay.textContent = '0Rs';
+                payButton.disabled = true;
+                return;
+            }
+
+            const timeDiff = checkout - checkin;
+            const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+            if (nights <= 0) {
+                errorDisplay.textContent = 'Check-out must be after check-in';
+                nightsDisplay.textContent = '0';
+                priceDisplay.textContent = '0Rs';
+                payButton.disabled = true;
+                return;
+            }
+
+            nightsDisplay.textContent = nights;
+            priceDisplay.textContent = (nights * PRICE_PER_NIGHT) +'Rs' ;
+            payButton.disabled = false;
+        }
+
+        checkinInput.addEventListener('change', () => {
+            checkoutInput.min = checkinInput.value;
+            calculateNights();
+        });
+
+        checkoutInput.addEventListener('change', calculateNights);
+
+        payButton.addEventListener('click', () => {
+            const nights = parseInt(nightsDisplay.textContent);
+            const total = nights * PRICE_PER_NIGHT;
+            alert(`Processing payment of Rs${total} for ${nights} night${nights > 1 ? 's' : ''}`);
+        });
+    </script> 
+    
+</div>

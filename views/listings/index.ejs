@@ -1,0 +1,36 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+    <h3>WanderLust</h3>
+    <!--<form method="GET" action="/listings/new">
+      <button>Create New Listing</button>
+    </form> -->
+    <div class="row row-cols-lg-3  row-cols-md-2 row-cols-sm-1">  <!--in a row in large screen size min 3 cols can be seen-->
+      <% for(let listing of allListings) { %>
+        <a href="/listings/<%= listing._id%>" class="listing-link">
+          <div class="card col" > <!--cards gets arranged in columns-->
+            <img src="<%= listing.image.url || listing.image %>" class="card-img-top" alt="listing_image" style="height:20rem;">
+            <div class="card-img-overlay"></div>
+             <div class="card-body">
+              <p class="card-text">
+                <b><%= listing.title %><br></b>
+                &#8377;<%= listing.price.toLocaleString("en-IN"); %> 
+              </p>
+             </div>
+            
+          </div>
+          <% } %>
+      </div>
+     </a>
+    
+
+
+   <!-- <ul>
+      <% for(let listing of allListings) { %>
+        <li><a href="listings/<%= listing._id %>"><%= listing.title %></a></li>  <!--we send get request to /listings/:id to show all data by clicking that specific listing in listing (show route(READ))
+        
+      <% } %>
+    </ul>
+</body>
+-->
+
+

@@ -1,0 +1,40 @@
+<% layout("/layouts/boilerplate") %>
+
+
+<div class="row">
+    <div class="col-8 offset-3 mt-3">
+    <h3>Listing Details :</h3>
+    </div>
+
+    <!--to style this we can use card component in bootstrap-->
+    <div>
+    <div class="card col-6 offset-3 show-card">
+        <img src="<%= listing_detail.image.url || listing_detail.image %>" class="card-img-top show-img" alt="listing_img">
+        <div class="card-body">
+          <p class="card-text">
+            <b><%= listing_detail.title %></b><br>
+            
+                <%= listing_detail.description %><br>
+                &#8377;<%= listing_detail.price.toLocaleString("en-IN"); %> <br> <!--toLocalString is a js fxn used to convert our price in indian standards(commas)-->
+                <%= listing_detail.location %><br>
+                <%= listing_detail.country %><br>
+          </p>
+          </div>
+        </div>
+    <br/>
+    <div class="btns">
+      <a href="/listings/<%= listing_detail._id %>/edit" class="btn btn-dark col-1 offset-3 edit-btn">Edit</a>   <!--here href is /listings/id/edit-->  <!--btn-btn-dark is bootstrap button-->  
+    
+     <form method="POST" action="/listings/<%= listing_detail._id %>?_method=DELETE">
+         <button class="btn btn-dark offset-5">Delete</button>
+     </form>
+
+     <a href="/listings/<%= listing_detail._id %>/reserve" class="btn btn-dark offset-3 res-btn">Reserve</a>
+
+    </div>
+    <br><br>
+    
+
+</div>
+
+    
