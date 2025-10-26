@@ -36,12 +36,12 @@ app.use(express.static(path.join(__dirname,"/public")));
 
 
 //basic api
-app.get("/",(req,res)=>{
+/*app.get("/",(req,res)=>{
     res.send("Hi iam root");
-});
+});*/
 
 // we send get request to /listings and then we return all data that is all hotel names (index route)
-app.get("/listings",async(req,res)=>{
+app.get("/",async(req,res)=>{
     const allListings = await listing.find({});
     res.render("listings/index.ejs",{allListings});  
 });
